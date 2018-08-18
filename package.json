@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "learning-gatsby",
+  "description": "Learning Gatsby",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Chiran Doshi <chirandoshi@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^1.5.0",
     "gatsby": "next",
