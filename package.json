@@ -54,6 +54,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "heroku-postbuild": "gatsby build",
     "format": "prettier --write '**/*.js'",
     "test": "jest"
   },
