@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
@@ -32,8 +33,14 @@ const snackMargin = {
 }
 //
 
+// Define the state interface
+interface IndexState {
+  nameField: boolean,
+  dobField: boolean,
+  submitForm: boolean
+}
 
-class IndexPage extends React.Component {
+class IndexPage extends React.Component<any, IndexState> {
 
   constructor(props) {
     super(props);
