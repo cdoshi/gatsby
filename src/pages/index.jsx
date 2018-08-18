@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'gatsby'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
@@ -8,11 +7,9 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
 
 import Layout from '../components/layout';
 
@@ -35,14 +32,8 @@ const snackMargin = {
 }
 //
 
-// Define the state interface
-interface IndexState {
-  nameField: boolean,
-  dobField: boolean,
-  submitForm: boolean
-}
 
-class IndexPage extends React.Component<any, IndexState> {
+class IndexPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -63,14 +54,14 @@ class IndexPage extends React.Component<any, IndexState> {
 
   // For the test, I am using custom validator. For the site, we could use out of the box validator
   validateForm() {
-    if(document.getElementById('name').value.trim() == '') {
+    if(document.getElementById('name').value.trim() === '') {
       this.setState({nameField: true});
       return;
     } else {
       this.setState({nameField: false});
     }
 
-    if(document.getElementById('dob').value.trim() == '') {
+    if(document.getElementById('dob').value.trim() === '') {
       this.setState({dobField: true});
       return;
     } else {
