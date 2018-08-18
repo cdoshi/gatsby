@@ -33,9 +33,16 @@ const formStyle = {
 const snackMargin = {
   marginTop: '1rem'
 }
+//
 
+// Define the state interface
+interface IndexState {
+  nameField: boolean,
+  dobField: boolean,
+  submitForm: boolean
+}
 
-class IndexPage extends React.Component<any, any> {
+class IndexPage extends React.Component<any, IndexState> {
 
   constructor(props) {
     super(props);
