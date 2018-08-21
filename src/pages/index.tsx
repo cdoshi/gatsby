@@ -11,8 +11,30 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 import Layout from '../components/layout';
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import pink from '@material-ui/core/colors/pink';
+
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: '#455A64',
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: pink,
+    // error: will use the default color
+  },
+});
 
 
 // Inline Styles used for the demo. In real site would use css modules
@@ -37,7 +59,9 @@ const snackMargin = {
 interface IndexState {
   nameField: boolean,
   dobField: boolean,
-  submitForm: boolean
+  submitForm: boolean,
+  loading: boolean,
+  gender: string
 }
 
 class IndexPage extends React.Component<any, IndexState> {
@@ -48,15 +72,22 @@ class IndexPage extends React.Component<any, IndexState> {
     this.state = {
       nameField: false,
       dobField: false,
-      submitForm: false
+      submitForm: false,
+      loading: false,
+      gender: ''
     };
 
     this.validateForm = this.validateForm.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
   }
 
   handleClose() {
     this.setState({submitForm: false});
+  }
+
+  handleRadio(event) {
+    this.setState({ gender: event.target.value });
   }
 
   // For the test, I am using custom validator. For the site, we could use out of the box validator
@@ -75,44 +106,57 @@ class IndexPage extends React.Component<any, IndexState> {
       this.setState({dobField: false});
     }
 
-    this.setState({submitForm: true})
+    this.setState({loading: true});
 
+    setTimeout(() => {
+      this.setState({submitForm: true, loading: false})
+    }, 2000);
   }
 
   render() {
 
-    return (<Layout>
-      <form style={formStyle}>
+    return (
+      <MuiThemeProvider theme={theme}>
+      <Layout>
+
+      <form>
+
         <div style={formControl}>
-          <TextField id="name" label="Name" error={this.state.nameField} required margin="normal" fullWidth={true} />
+          <TextField id="name" label="Name" error={this.state.nameField} required margin="normal" fullWidth={true} color="primary" />
         </div>
 
         <div style={formControl}>
           <TextField id="dob" label="Date of Birth" type="date" error={this.state.dobField} required InputLabelProps={{shrink: true}} fullWidth={true} />
         </div>
 
+          <RadioGroup aria-label="Gender" name="gender1" onChange={this.handleRadio} value={this.state.gender} style={formControl}>
+            <FormControlLabel value="female" control={<Radio />} label="Female" />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
+          </RadioGroup>
+
         <div style={formControl}>
-          <TextField id="allergies" label="List any drug or medical material allergies and reaction" rows={3} multiline={true} fullWidth={true} InputLabelProps={{shrink: true}} />
+          <TextField id="allergies" label="List any drug or medical material allergies" rows={3} multiline={true} fullWidth={true} InputLabelProps={{shrink: true}} />
         </div>
 
         <FormControl component="fieldset" style={formControl}>
-          <FormLabel component="legend">Family Medical History</FormLabel>
+          <FormLabel component="legend" color="primary">Family Medical History</FormLabel>
           <FormGroup>
             <Grid container spacing={24}>
               <Grid item md={6} sm={6}>
                 <div>
-                <FormControlLabel control={<Checkbox value="breastdisease" color="primary" />} label="Breast Disease" />
+                <FormControlLabel control={<Checkbox value="breastdisease" color="secondary" />} label="Breast Disease" />
               </div>
               <div>
-                <FormControlLabel control={<Checkbox value="substanceabuse" color="primary" />} label="Substance Abuse" />
+                <FormControlLabel control={<Checkbox value="substanceabuse" color="secondary" />} label="Substance Abuse" />
               </div>
               </Grid>
               <Grid item md={6} sm={6}>
                 <div>
-                <FormControlLabel control={<Checkbox value="diabetes" color="primary" />} label="Diabetes" />
+                <FormControlLabel control={<Checkbox value="diabetes" color="secondary" />} label="Diabetes" />
               </div>
               <div>
-                <FormControlLabel control={<Checkbox value="highcholesterol" color="primary" />} label="High Cholesterol" />
+                <FormControlLabel control={<Checkbox value="highcholesterol" color="secondary" />} label="High Cholesterol" />
               </div>
               </Grid>
             </Grid>
@@ -123,9 +167,10 @@ class IndexPage extends React.Component<any, IndexState> {
           <TextField id="extraIllness" label="Any other illness?" fullWidth={true} InputLabelProps={{shrink: true}} />
         </div>
 
-        <Button variant="contained" color="primary" fullWidth={true} onClick={this.validateForm}>
+        <Button variant="contained" color="secondary" fullWidth={true} onClick={this.validateForm}>
           Submit
         </Button>
+        {this.state.loading && <LinearProgress color="primary"/>}
       </form>
 
       <Snackbar
@@ -139,8 +184,9 @@ class IndexPage extends React.Component<any, IndexState> {
         onClose={this.handleClose}
         style={snackMargin}
         />
-
-    </Layout>)
+    </Layout>
+  </MuiThemeProvider>
+)
   }
 }
 
